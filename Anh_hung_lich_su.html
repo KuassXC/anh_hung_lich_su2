@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bắc Giang Gallery: Hào Khí Ngàn Năm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,700&family=Montserrat:wght@200;400;700&family=Noto+Serif+Vietnam:wght@300;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --gold: #d4af37;
+        --dark-gold: #b8860b;
+        --crimson: #5c0000;
+        --ink: #0a0a0a;
+        --paper: #f2ede4;
+        --transition: cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--ink);
+        color: var(--paper);
+        font-family: "Montserrat", sans-serif;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      /* Loading Overlay */
+      #loader {
+        position: fixed;
+        inset: 0;
+        background: var(--ink);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 1s var(--transition);
+      }
+
+      .loader-content {
+        text-align: center;
+        border: 1px solid var(--gold);
+        padding: 40px;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.5;
+          transform: scale(0.98);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* Layout & Sections */
+      section {
+        min-height: 100vh;
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 10vh 10vw;
+        overflow: hidden;
+      }
+
+      .bg-text {
+        position: absolute;
+        font-family: "Playfair Display", serif;
+        font-size: 25vw;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.03);
+        z-index: 0;
+        white-space: nowrap;
+        pointer-events: none;
+        text-transform: uppercase;
+      }
+
+      /* Intro Section */
+      #intro {
+        height: 100vh;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+      }
+
+      .main-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        color: var(--gold);
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: 1.5s var(--transition);
+      }
+
+      .main-subtitle {
+        font-size: 1.2rem;
+        letter-spacing: 12px;
+        text-transform: uppercase;
+        color: var(--paper);
+        opacity: 0.7;
+        margin-bottom: 50px;
+        font-weight: 200;
+      }
+
+      /* Hero Content Card */
+      .hero-card {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 80px;
+        z-index: 2;
+        width: 100%;
+        align-items: center;
+      }
+
+      .reveal-text {
+        opacity: 0;
+        transform: translateX(-50px);
+        transition: 1s var(--transition);
+      }
+
+      .reveal-image {
+        opacity: 0;
+        transform: scale(1.1) translateX(50px);
+        transition: 1.2s var(--transition);
+      }
+
+      .visible .reveal-text {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .visible .reveal-image {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+      }
+
+      .name-tag {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        color: var(--gold);
+        margin-bottom: 5px;
+        position: relative;
+      }
+
+      .role-title {
+        font-family: "Noto Serif Vietnam", serif;
+        font-size: 1rem;
+        color: var(--dark-gold);
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 25px;
+        display: block;
+        letter-spacing: 3px;
+      }
+
+      .quote-box {
+        border-left: 3px solid var(--gold);
+        padding-left: 30px;
+        margin-bottom: 30px;
+        font-style: italic;
+        font-size: 1.3rem;
+        color: #ddd;
+        font-family: "Noto Serif Vietnam", serif;
+        line-height: 1.4;
+      }
+
+      .description {
+        font-weight: 300;
+        font-size: 1rem;
+        color: #bbb;
+        margin-bottom: 20px;
+        text-align: justify;
+      }
+
+      .legacy-tag {
+        display: inline-block;
+        padding: 5px 15px;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-top: 10px;
+        letter-spacing: 1px;
+      }
+
+      .image-container {
+        position: relative;
+        aspect-ratio: 4/5;
+        background: #111;
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+      }
+
+      .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(0.2) contrast(1.1);
+      }
+
+      .image-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 70%, var(--ink));
+        pointer-events: none;
+      }
+
+      /* Timeline / Progress Navigation */
+      .side-nav {
+        position: fixed;
+        left: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .nav-dot {
+        width: 10px;
+        height: 10px;
+        border: 1px solid var(--gold);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .nav-dot.active {
+        background: var(--gold);
+        box-shadow: 0 0 10px var(--gold);
+        transform: scale(1.5);
+      }
+
+      /* Footer */
+      .footer {
+        height: 80vh;
+        background: linear-gradient(to top, var(--crimson), var(--ink));
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 0 15vw;
+      }
+
+      .scroll-down {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        color: var(--gold);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0) translateX(-50%);
+        }
+        40% {
+          transform: translateY(-10px) translateX(-50%);
+        }
+        60% {
+          transform: translateY(-5px) translateX(-50%);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .hero-card {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .image-container {
+          order: -1;
+          height: 450px;
+        }
+        section {
+          padding: 100px 5vw;
+        }
+        .bg-text {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loader">
+      <div class="loader-content">
+        <h2
+          style="
+            font-family: &quot;Playfair Display&quot;;
+            color: var(--gold);
+            letter-spacing: 8px;
+          "
+        >
+          KINH BẮC
+        </h2>
+        <p
+          style="
+            font-size: 11px;
+            margin-top: 15px;
+            font-weight: 200;
+            color: #888;
+          "
+        >
+          KHAI MỞ KHÔNG GIAN HUYỀN THOẠI...
+        </p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="side-nav">
+      <div class="nav-dot active" onclick="scrollToSection(0)"></div>
+      <div class="nav-dot" onclick="scrollToSection(1)"></div>
+      <div class="nav-dot" onclick="scrollToSection(2)"></div>
+      <div class="nav-dot" onclick="scrollToSection(3)"></div>
+      <div class="nav-dot" onclick="scrollToSection(4)"></div>
+      <div class="nav-dot" onclick="scrollToSection(5)"></div>
+      <div class="nav-dot" onclick="scrollToSection(6)"></div>
+    </div>
+
+    <!-- Intro -->
+    <section id="intro">
+      <p
+        style="
+          color: var(--gold);
+          letter-spacing: 15px;
+          margin-bottom: 20px;
+          font-size: 0.9rem;
+        "
+      >
+        DI SẢN VĂN HIẾN
+      </p>
+      <h1 class="main-title">Hào Khí Bắc Giang</h1>
+      <p class="main-subtitle">Ngũ Đại Hào Kiệt</p>
+      <div class="scroll-down">
+        Khám phá hành trình<br /><i
+          class="fa-solid fa-chevron-down"
+          style="margin-top: 10px"
+        ></i>
+      </div>
+    </section>
+
+    <!-- Thân Nhân Trung -->
+    <section class="hero-section" id="hero1">
+      <div class="bg-text" style="top: 15%; right: -10%">INTELLECT</div>
+      <div class="hero-card">
+        <div class="reveal-text">
+          <span class="role-title">Bậc thầy Tư tưởng triều Lê Sơ</span>
+          <h2 class="name-tag">Thân Nhân Trung</h2>
+          <div class="quote-box">
+            "Hiền tài là nguyên khí của quốc gia, nguyên khí thịnh thì thế nước
+            mạnh, rồi lên cao; nguyên khí thấp thì thế nước yếu, rồi xuống
+            thấp."
+          </div>
+          <p class="description">
+            Sinh năm 1419 tại làng Yên Ninh, huyện Yên Dũng (nay là thị trấn
+            Nếnh, Việt Yên). Ông đỗ Tiến sĩ năm 1469 và nhanh chóng trở thành
+            cộng sự đắc lực của vua Lê Thánh Tông trong việc xây dựng nền văn
+            hiến rực rỡ nhất lịch sử phong kiến Việt Nam.
+          </p>
+          <p class="description">
+            Là thành viên chủ chốt của "Tao Đàn Nhị thập bát tú", ông không chỉ
+            để lại những áng văn chương đi vào lòng người mà còn xác lập một
+            chân lý giáo dục bất hủ. Câu châm ngôn của ông được khắc trên bia
+            Tiến sĩ năm 1442 tại Văn Miếu - Quốc Tử Giám đã trở thành tôn chỉ
+            cho việc trọng dụng nhân tài của dân tộc qua hàng thế kỷ.
+          </p>
+          <span class="legacy-tag">Người đặt nền móng cho Nền giáo dục</span>
+        </div>
+        <div class="reveal-image">
+          <div class="image-container">
+            <div class="image-overlay"></div>
+            <img
+              src="https://thpttnt.edu.vn/wp-content/uploads/2022/12/1-2.png"
+              alt="Thân Nhân Trung"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Giáp Hải -->
+    <section class="hero-section" id="hero2" style="background: #050505">
+      <div class="bg-text" style="bottom: 10%; left: -5%">WISDOM</div>
+      <div class="hero-card">
+        <div class="reveal-image">
+          <div class="image-container">
+            <div class="image-overlay"></div>
+            <img
+              src="https://phuongnam.vanhoavaphattrien.vn/uploads/editor/files/TKTS/danhhoa1/125235235666326.jpg"
+              alt="Giáp Hải"
+            />
+          </div>
+        </div>
+        <div class="reveal-text">
+          <span class="role-title">Trạng Nguyên Trình Quốc Công</span>
+          <h2 class="name-tag">Giáp Hải</h2>
+          <div class="quote-box">
+            "Gốc bền chẳng sợ gió lay / Ngọn cao xanh biếc, tàn dày bóng che."
+          </div>
+          <p class="description">
+            Vị Trạng nguyên kiệt xuất quê làng Dĩnh Kế, Bắc Giang. Ông đỗ đầu
+            khoa thi năm 1538 dưới triều Mạc. Giáp Hải nổi tiếng không chỉ bởi
+            học vấn uyên thâm mà còn bởi khí tiết can trường của một nhà ngoại
+            giao tài ba.
+          </p>
+          <p class="description">
+            Khi sứ giả nhà Minh mang bài thơ "Vịnh bèo" sang nhằm uy hiếp tinh
+            thần triều đình Việt, ông đã lập tức đối đáp bằng một bài họa xuất
+            thần, khẳng định sức mạnh và sự gắn kết không thể tách rời của dân
+            tộc ta. Hành động đó đã khiến đối phương phải nể phục, từ bỏ ý đồ
+            xâm lược, giữ vững quốc thể và sự bình yên cho nhân dân.
+          </p>
+          <span class="legacy-tag">Bậc thầy Ngoại giao & Khí tiết</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Đào Sư Tích -->
+    <section class="hero-section" id="hero3">
+      <div class="bg-text" style="top: 25%; right: 5%">ELITE</div>
+      <div class="hero-card">
+        <div class="reveal-text">
+          <span class="role-title">Trạng Nguyên Lưỡng Quốc</span>
+          <h2 class="name-tag">Đào Sư Tích</h2>
+          <div class="quote-box">
+            "Trí tuệ vượt biên thùy, lòng son giữ sơn hà."
+          </div>
+          <p class="description">
+            Ông là Trạng nguyên khoa thi năm Giáp Dần (1374) đời vua Trần Duệ
+            Tông. Với tư chất thông minh thiên bẩm, Đào Sư Tích đã trở thành một
+            trong những cột trụ của triều đình nhà Trần trong giai đoạn lịch sử
+            đầy biến động.
+          </p>
+          <p class="description">
+            Khi sang nhà Minh đi sứ, ông đã thể hiện bản lĩnh tuyệt vời khi giải
+            đáp mọi câu đố hóc búa nhất của triều đình phương Bắc. Trước tài
+            năng xuất chúng đó, vua Minh đã phải sắc phong ông là "Lưỡng quốc
+            Trạng nguyên". Ông là tấm gương sáng về sự hiếu học, dùng trí tuệ để
+            bảo vệ hòa bình và khẳng định vị thế của Đại Việt trên trường quốc
+            tế.
+          </p>
+          <span class="legacy-tag">Biểu tượng Hiếu học Việt Nam</span>
+        </div>
+        <div class="reveal-image">
+          <div class="image-container">
+            <div class="image-overlay"></div>
+            <img
+              src="https://danviet.ex-cdn.com/files/f1/296231569849192448/2024/9/6/luongquoctrangnguyendaosutichgrvw-1725591511351-1725591512215218912047.jpg"
+              alt="Đào Sư Tích"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hoàng Hoa Thám -->
+    <section
+      class="hero-section"
+      id="hero4"
+      style="background: linear-gradient(to bottom, #0a0a0a, #1a0505)"
+    >
+      <div class="bg-text" style="top: -5%; left: 0">VALOR</div>
+      <div class="hero-card">
+        <div class="reveal-image">
+          <div class="image-container">
+            <div class="image-overlay"></div>
+            <img
+              src="https://hoanghoatham.edu.vn/wp-content/uploads/2023/06/DeTham-e1688093507590-241x300.jpg"
+              alt="Hoàng Hoa Thám"
+            />
+          </div>
+        </div>
+        <div class="reveal-text">
+          <span class="role-title">Thủ lĩnh Khởi nghĩa Yên Thế</span>
+          <h2 class="name-tag">Hoàng Hoa Thám</h2>
+          <div class="quote-box">
+            "Chúng tôi gắn bó với đất đai này, chúng tôi sẽ chiến đấu đến cùng
+            để bảo vệ sự tự do của mình!"
+          </div>
+          <p class="description">
+            Được mệnh danh là "Hùm xám Yên Thế", ông đã lãnh đạo cuộc kháng
+            chiến chống thực dân Pháp oanh liệt kéo dài suốt gần 30 năm
+            (1884-1913). Dưới sự chỉ huy của Đề Thám, vùng đất Bắc Giang đã trở
+            thành pháo đài thép, nơi quân Pháp phải nếm trải những thất bại cay
+            đắng nhất.
+          </p>
+          <p class="description">
+            Không chỉ giỏi về chiến thuật du kích, ông còn có tầm nhìn chính trị
+            khi liên kết với các nhà yêu nước lớn như Phan Bội Châu, Phan Chu
+            Trinh. Cuộc khởi nghĩa Yên Thế là bản anh hùng ca bất diệt về lòng
+            yêu nước và ý chí quật cường của giai cấp nông dân Việt Nam trước sự
+            xâm lược của thực dân.
+          </p>
+          <span class="legacy-tag">Linh hồn Kháng chiến Yên Thế</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Nguyễn Văn Cốc -->
+    <section class="hero-section" id="hero5">
+      <div class="bg-text" style="bottom: 0; right: 0">LEGEND</div>
+      <div class="hero-card">
+        <div class="reveal-text">
+          <span class="role-title">Phi Công Ace Bậc Nhất Thế Giới</span>
+          <h2 class="name-tag">Nguyễn Văn Cốc</h2>
+          <div class="quote-box">
+            "Làm chủ bầu trời bằng trái tim thép và khối óc mưu trí."
+          </div>
+          <p class="description">
+            Người con của vùng đất Việt Yên, Bắc Giang. Trong cuộc kháng chiến
+            chống Mỹ cứu nước, ông là phi công tiêm kích MiG-21 có hiệu suất
+            chiến đấu cao nhất lịch sử Không quân Nhân dân Việt Nam với 9 máy
+            bay Mỹ bị bắn rơi.
+          </p>
+          <p class="description">
+            Chiến tích của ông đã gây chấn động không chỉ trong nước mà cả thế
+            giới. Ông được công nhận là phi công đạt cấp "Ace" (bắn rơi từ 5 máy
+            bay trở lên) có số lượng chiến công hàng đầu trong kỷ nguyên phản
+            lực. Với kỹ thuật bay điêu luyện và lòng dũng cảm vô song, ông đã
+            viết nên huyền thoại về những cánh én bạc bảo vệ bình yên cho bầu
+            trời Tổ quốc.
+          </p>
+          <span class="legacy-tag"
+            >Người hùng Bầu trời thời đại Hồ Chí Minh</span
+          >
+        </div>
+        <div class="reveal-image">
+          <div class="image-container">
+            <div class="image-overlay"></div>
+            <img
+              src="https://photo.znews.vn/w960/Uploaded/yfsgs/2019_12_17/NguyenVanCoc1.jpg"
+              alt="Nguyễn Văn Cốc"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer">
+      <div style="max-width: 800px">
+        <h2
+          style="
+            font-family: &quot;Playfair Display&quot;;
+            font-size: 3.5rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+          "
+        >
+          Địa Linh Nhân Kiệt
+        </h2>
+        <p
+          style="
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-weight: 300;
+          "
+        >
+          Bắc Giang không chỉ là vùng đất của những dòng sông, những ngọn núi
+          hùng vĩ mà còn là cái nôi của những tâm hồn lớn, những khí phách hiên
+          ngang. Di sản của 5 vị hào kiệt là ngọn đuốc sáng soi đường cho thế hệ
+          hôm nay và mai sau tiếp bước, xây dựng quê hương giàu đẹp, văn minh.
+        </p>
+        <div
+          style="
+            height: 1px;
+            background: rgba(212, 175, 55, 0.3);
+            width: 200px;
+            margin: 0 auto 40px;
+          "
+        ></div>
+        <p
+          style="
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            color: var(--paper);
+            opacity: 0.6;
+          "
+        >
+          Tổ 3 - Lớp 12A2 - Trường THPT Yên Dũng số 3
+        </p>
+      </div>
+    </section>
+
+    <script>
+      // Loader
+      window.onload = () => {
+        setTimeout(() => {
+          document.getElementById("loader").style.opacity = "0";
+          setTimeout(() => {
+            document.getElementById("loader").style.display = "none";
+            document.querySelector(".main-title").style.opacity = "1";
+            document.querySelector(".main-title").style.transform =
+              "translateY(0)";
+          }, 1000);
+        }, 1200);
+      };
+
+      // Scroll Observer
+      const observerOptions = {
+        threshold: 0.2,
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            updateNav(entry.target.id);
+          }
+        });
+      }, observerOptions);
+
+      document
+        .querySelectorAll(".hero-section, #intro, .footer")
+        .forEach((section) => {
+          observer.observe(section);
+        });
+
+      // Navigation Sync
+      function updateNav(id) {
+        const dots = document.querySelectorAll(".nav-dot");
+        const sections = [
+          "intro",
+          "hero1",
+          "hero2",
+          "hero3",
+          "hero4",
+          "hero5",
+          "footer",
+        ];
+        const index = sections.indexOf(id);
+        if (index !== -1) {
+          dots.forEach((dot) => dot.classList.remove("active"));
+          dots[index].classList.add("active");
+        }
+      }
+
+      function scrollToSection(index) {
+        const sections = [
+          "intro",
+          "hero1",
+          "hero2",
+          "hero3",
+          "hero4",
+          "hero5",
+          "footer",
+        ];
+        document
+          .getElementById(sections[index])
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      // Parallax Effect for Background Text
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        document.querySelectorAll(".bg-text").forEach((text, index) => {
+          const speed = index % 2 === 0 ? 0.15 : -0.15;
+          text.style.transform = `translateX(${scrolled * speed}px)`;
+        });
+      });
+    </script>
+  </body>
+</html>
